@@ -1,0 +1,71 @@
+﻿@model Song
+
+@{
+    ViewData["Title"] = "Song Details";
+}
+
+<div class="row">
+        <div class="col-md-8 offset-2">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white bg-dark">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                    @Model.Name
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="@Model.ImageUrl" width="100%" alt="@Model.Name">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text"><b>Full Title: </b>@Model.FullName</p>
+                            <p class="card-text">
+                                <b>Label: </b>
+                                <a asp-controller="RecordLabel" asp-action="Details" asp-route-id="@Model.RecordLabelId">
+                                    @Model.RecordLabel.Name
+                                </a>
+                            </p>
+                            <p class="card-text">
+                                <b>Producer: </b>
+                                <a asp-controller="Producers" asp-action="Details" asp-route-id="@Model.ProducerId">
+                                    @Model.Producer.FullName
+                                </a>
+                            </p>
+
+                            <p class="card-text"><b>Category: </b>@Model.SongCategory</p>
+
+                            <p class="card-text">
+                                <b>Singers: </b>
+                                <hr />
+                                <div class="row">
+                                    @foreach(var singer in Model.Singers_Songs)
+                                    {
+                                        <div class="column text-center">
+                                            <img class="border-info rounded-circle" src="@singer.Singer.ProfilePictureUrl" style="max-width:150px"/>
+                                            <a asp-controller="Singers" asp-action="Details" asp-route-id="@singer.SingerId">@singer.Singer.FullName</a>
+                                        </div>
+                                    }
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-footer">
+                            <p class="card-text">
+                                <a class="btn btn-outline-primary float-right" asp-action="Index">
+                                    Back to List
+                                </a>
+                                <a class="btn btn-success text-white"
+                                   asp-controller="Orders"
+                                   asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id"><i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
